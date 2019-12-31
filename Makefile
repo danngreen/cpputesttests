@@ -5,7 +5,7 @@ SILENCE = @
 COMPONENT_NAME = dgtests
 
 #--- Inputs ----#
-CPPUTEST_HOME = ../cpputest
+CPPUTEST_HOME = cpputest
 CPP_PLATFORM = Gcc
 PROJECT_HOME_DIR = .
 
@@ -55,9 +55,12 @@ CPPUTEST_CFLAGS += -Wstrict-prototypes
 CPPUTEST_CFLAGS += -pedantic
 CPPUTEST_CFLAGS += -Wno-missing-prototypes
 
-
 #LD_LIBRARIES = -lpthread
-	
-  
+
 include $(CPPUTEST_HOME)/build/MakefileWorker.mk
 
+.PHONY: cpputest
+cpputest: cpputest/lib/libCppUTest.a
+
+cpputest/lib/libCppUTest.a:
+	cd cpputest; autoreconf . -i && ./configure && make tdd
